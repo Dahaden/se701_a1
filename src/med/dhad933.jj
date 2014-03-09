@@ -1,0 +1,102 @@
+
+options
+{
+  JDK_VERSION = "1.5";
+  static = false;
+}
+
+PARSER_BEGIN(MedParser)
+package med;
+import java.io.*;
+public class MedParser
+{
+
+}
+
+PARSER_END(MedParser)
+
+SKIP :
+{
+" "
+| "\t"
+| "\n"
+| "\r"
+| "\f"
+}
+
+TOKEN :   // Have Multiple "TOKEN"S for each structure and library{< MEDCENTER: "MEDCENTER" (" ")? < NAME >>
+| < HOURS: "HOURS" (" ")? (< DAYS >)(< COMMA >< DAYS >)*(< TIMEPERIOD >)>
+| < LBRAC: "{" >
+| < RBRAC: "}" >
+| < COMMA: "," >
+| < #DAYS: ("Mon"|"Tue"|"Wed"|"Thu"|"Fri"|"Sat"|"Sun") >
+
+| < DIGIT : (["0"-"9"]) >
+| < INTEGER_PAIR : (< DIGIT >){2} >
+| < #TIME: (< INTEGER_PAIR >)[":"](< INTEGER_PAIR >) >
+| < #TIMEPERIOD: ["("](< TIME >)["-"](< TIME >)[")"] >
+| < MONTHS: ("January"|"February"|"March"|"April"|"May"|"June"|"July"|"August"|"September"|"October"|"November"|"December") >
+
+| < LETTER: ["A"-"Z","a"-"z"," "] >
+| < ULETTER: ["A"-"Z"] >
+| < NAME: ["\u201c"](< LETTER >)+["\u201d"] >
+}
+
+TOKEN :{< DOCTOR: ("DOCTOR")(" ")?(< NAME >) (" ")?(< REG_IDWINT >) >
+| < #REG_ID: "REG_ID" >
+| < #FIVEDIGIT: (< DIGIT >){5} >
+| < #REG_IDWINT: (< REG_ID >)(" ")?(< FIVEDIGIT >) >
+}
+
+TOKEN :
+{
+  < PHONES : "PHONES" >
+| < PHONENUMBER : (< PHONETYPES >)(" ")?(< NUMBER >)((" ")?(< EXT >)(" ")?(< DIGIT >)+)?>
+| < #PHONETYPES : ("HOME"|"WORK"|"MOBILE")(":") >
+| < #EXT : "EXT" >
+| < #NUMBER : ("+")?(< DIGIT >)+ >
+}
+
+TOKEN :{< PATIENT: "PATIENT" (" ")?< NAME >>
+| < ID : "ID" (" ")?< IDSTRING >>
+| < #IDSTRING : (< ULETTER >){2}(< DIGIT >){5} >
+| < DOB : "DOB" (" ")? < DOBSTRING >>
+| < #DOBSTRING : (< DIGIT >){1,2}(" ")(< MONTHS >)(" ")(< DIGIT >){4} >
+| < ADDRESS : "ADDRESS" (" ")?["\u201c"](< ADDRESSSTRING >)["\u201d"] >
+| < #ADDRESSSTRING : (< LETTER > | < DIGIT > | "-" | "/" | < COMMA >)+ >
+}
+
+void MedCenter() :{
+}
+{
+  < MEDCENTER >
+  <LBRAC >
+  ( MedCenterAttr() )+
+  < RBRAC >< EOF >}
+
+void MedCenterAttr() :
+{}
+{	< HOURS >
+|  < DOCTOR >
+|  < PATIENT > Patient()
+
+}
+
+void Patient() :
+{}{<LBRAC >
+(PatientAttr())*
+< RBRAC >
+}
+
+void PatientAttr() :{}{(  < ID >
+| < DOB >
+| < PHONES > Phones()
+| < ADDRESS >
+)
+}
+
+void Phones() :{}{< LBRAC >
+( < PHONENUMBER > )+
+< RBRAC >
+}
+

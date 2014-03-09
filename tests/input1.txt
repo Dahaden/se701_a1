@@ -1,6 +1,6 @@
 MEDCENTER “Auckland Uni Health Center” {
-HOURS Mon,Tue,Wed,Thu,Fri(08:00-17:00)
 HOURS Sat(09:00-16:30)
+HOURS Mon,Tue,Wed,Thu,Fri(08:00-17:00)
 DOCTOR “Joe Blogs” REG_ID 82263
 PATIENT “Lady Gaga” {
 ID LG12345
