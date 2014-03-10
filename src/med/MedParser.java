@@ -12,19 +12,19 @@ public class MedParser implements MedParserConstants {
   }
 
   final public void MedCenterAttr() throws ParseException {
-  boolean[] count = new boolean[2];
-  count[0] = false;
-  count[1] = false;
+        boolean[] count = new boolean[2];
+        count[0] = false;
+        count[1] = false;
     label_1:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case HOURS:
         jj_consume_token(HOURS);
-            count[0] = true;
+                        count[0] = true;
         break;
       case DOCTOR:
         jj_consume_token(DOCTOR);
-  count[1] = true;
+                        count[1] = true;
         break;
       case PATIENT:
         jj_consume_token(PATIENT);
@@ -46,14 +46,14 @@ public class MedParser implements MedParserConstants {
         break label_1;
       }
     }
-  if(!count[0])
-  {
-        {if (true) throw new ParseException("HOURS is not defined");}
-  }
-  else if(!count[1])
-  {
-        {if (true) throw new ParseException("DOCTOR is not defined");}
-  }
+                if(!count[0])
+                {
+                        {if (true) throw new ParseException("HOURS is not defined");}
+                }
+                else if(!count[1])
+                {
+                        {if (true) throw new ParseException("DOCTOR is not defined");}
+                }
   }
 
   final public void Patient() throws ParseException {
@@ -63,11 +63,11 @@ public class MedParser implements MedParserConstants {
   }
 
   final public void PatientAttr() throws ParseException {
-  int[] count = new int[4];
-  count[0] = 0;
-  count[1] = 0;
-  count[2] = 0;
-  count[3] = 0;
+        int[] count = new int[4];
+        count[0] = 0;
+        count[1] = 0;
+        count[2] = 0;
+        count[3] = 0;
     label_2:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -105,6 +105,22 @@ public class MedParser implements MedParserConstants {
         throw new ParseException();
       }
     }
+                if(count[0] != 1)
+                {
+                        {if (true) throw new ParseException("Exactly 1 ID must be defined per patient");}
+                }
+                else if(count[1] > 1)
+                {
+                        {if (true) throw new ParseException("More than 1 DOB given");}
+                }
+                else if(count[2] > 1)
+                {
+                        {if (true) throw new ParseException("More than 1 PHONES list given");}
+                }
+                else if(count[3] > 1)
+                {
+                        {if (true) throw new ParseException("More than 1 ADDRESS given");}
+                }
   }
 
   final public void Phones() throws ParseException {
