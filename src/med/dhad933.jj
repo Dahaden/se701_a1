@@ -24,8 +24,8 @@ SKIP :
 | "\f"
 }
 
-TOKEN :   // Have Multiple "TOKEN"S for each structure and library{< MEDCENTER: "MEDCENTER" (" ")? < NAME >>
-| < HOURS: "HOURS" (" ")? (< DAYS >)(< COMMA >< DAYS >)*(< TIMEPERIOD >)>
+TOKEN :   // Have Multiple "TOKEN"S for each structure and library{ < MEDCENTER: "MEDCENTER" (< SPACES >) < NAME >>
+| < HOURS: "HOURS" (< SPACES >) (< DAYS >)(< COMMA >< DAYS >)*(< TIMEPERIOD >)>
 | < LBRAC: "{" >
 | < RBRAC: "}" >
 | < COMMA: "," >
@@ -39,10 +39,11 @@ TOKEN :   // Have Multiple "TOKEN"S for each structure and library{< MEDCENTER
 
 | < LETTER: ["A"-"Z","a"-"z"," "] >
 | < ULETTER: ["A"-"Z"] >
-| < NAME: ["\u201c"](< LETTER >)+["\u201d"] >
+| < NAME: ["“"](< LETTER >)+["”"] >
+| < #SPACES : (" ")* >
 }
 
-TOKEN :{< DOCTOR: ("DOCTOR")(" ")?(< NAME >) (" ")?(< REG_IDWINT >) >
+TOKEN :{< DOCTOR: ("DOCTOR")(< SPACES >)(< NAME >) (< SPACES >)(< REG_IDWINT >) >
 | < #REG_ID: "REG_ID" >
 | < #FIVEDIGIT: (< DIGIT >){5} >
 | < #REG_IDWINT: (< REG_ID >)(" ")?(< FIVEDIGIT >) >
@@ -51,7 +52,7 @@ TOKEN :{< DOCTOR: ("DOCTOR")(" ")?(< NAME >) (" ")?(< REG_IDWINT >) >
 TOKEN :
 {
   < PHONES : "PHONES" >
-| < PHONENUMBER : (< PHONETYPES >)(" ")?(< NUMBER >)((" ")?(< EXT >)(" ")?(< DIGIT >)+)?>
+| < PHONENUMBER : (< PHONETYPES >)(< SPACES >)(< NUMBER >)((< SPACES >)(< EXT >)(< SPACES >)(< DIGIT >)+)?>
 | < #PHONETYPES : ("HOME"|"WORK"|"MOBILE")(":") >
 | < #EXT : "EXT" >
 | < #NUMBER : ("+")?(< DIGIT >)+ >

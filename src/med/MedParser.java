@@ -119,10 +119,10 @@ public class MedParser implements MedParserConstants {
       jj_la1_init_1();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x20100080,0x20100080,0x41000000,0x41000000,0x2000000,};
+      jj_la1_0 = new int[] {0x40200080,0x40200080,0x82000000,0x82000000,0x4000000,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x0,0x0,0x5,0x5,0x0,};
+      jj_la1_1 = new int[] {0x0,0x0,0xa,0xa,0x0,};
    }
 
   /** Constructor with InputStream. */
@@ -239,7 +239,7 @@ public class MedParser implements MedParserConstants {
   /** Generate ParseException. */
   public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[36];
+    boolean[] la1tokens = new boolean[37];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
@@ -256,7 +256,7 @@ public class MedParser implements MedParserConstants {
         }
       }
     }
-    for (int i = 0; i < 36; i++) {
+    for (int i = 0; i < 37; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;
