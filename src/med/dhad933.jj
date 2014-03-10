@@ -72,28 +72,65 @@ void MedCenter() :{
 {
   < MEDCENTER >
   <LBRAC >
-  ( MedCenterAttr() )+
+  MedCenterAttr()
   < RBRAC >< EOF >}
 
 void MedCenterAttr() :
-{}
-{	< HOURS >
+{
+  boolean[] count = new boolean[2];
+  count[0] = false;
+  count[1] = false;}
+{	(	  < HOURS >	  {
+	    count[0] = true;	  }
 |  < DOCTOR >
-|  < PATIENT > Patient()
+{
+  count[1] = true;}
+|  < PATIENT > Patient())+
 
+({  if(!count[0])  { 
+  	throw new ParseException("HOURS is not defined");
+  }
+  else if(!count[1])  {	throw new ParseException("DOCTOR is not defined");
+  }})
 }
 
 void Patient() :
 {}{<LBRAC >
-(PatientAttr())*
+PatientAttr()
 < RBRAC >
 }
 
-void PatientAttr() :{}{(  < ID >
+void PatientAttr() :{
+  int[] count = new int[4];
+  count[0] = 0;
+  count[1] = 0;
+  count[2] = 0;
+  count[3] = 0;}{(    < ID >    {		count[0]++;
+    }
 | < DOB >
+{
+		count[1]++;
+    }
 | < PHONES > Phones()
+{
+		count[2]++;
+    }
 | < ADDRESS >
-)
+{
+		count[3]++;
+    }
+)*
+
+({  if(count[0] != 1)  {	throw new ParseException("Only 1 ID should be defined per patient");
+  }
+  else if(count[1] <= 1)
+  {	throw new ParseException("More than 1 DOB given");	
+  }
+  else if(count[2] <= 1)  {	throw new ParseException("More than 1 PHONES list given");
+  }
+  else if(count[3] <= 1)  {	throw new ParseException("More than 1 ADDRESS given");
+  }  
+
 }
 
 void Phones() :{}{< LBRAC >

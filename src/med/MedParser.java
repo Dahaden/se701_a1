@@ -6,9 +6,35 @@ public class MedParser implements MedParserConstants {
   final public void MedCenter() throws ParseException {
     jj_consume_token(MEDCENTER);
     jj_consume_token(LBRAC);
+    MedCenterAttr();
+    jj_consume_token(RBRAC);
+    jj_consume_token(0);
+  }
+
+  final public void MedCenterAttr() throws ParseException {
+  boolean[] count = new boolean[2];
+  count[0] = false;
+  count[1] = false;
     label_1:
     while (true) {
-      MedCenterAttr();
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case HOURS:
+        jj_consume_token(HOURS);
+            count[0] = true;
+        break;
+      case DOCTOR:
+        jj_consume_token(DOCTOR);
+  count[1] = true;
+        break;
+      case PATIENT:
+        jj_consume_token(PATIENT);
+        Patient();
+        break;
+      default:
+        jj_la1[0] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case HOURS:
       case DOCTOR:
@@ -16,35 +42,32 @@ public class MedParser implements MedParserConstants {
         ;
         break;
       default:
-        jj_la1[0] = jj_gen;
+        jj_la1[1] = jj_gen;
         break label_1;
       }
     }
-    jj_consume_token(RBRAC);
-    jj_consume_token(0);
+  if(!count[0])
+  {
+        {if (true) throw new ParseException("HOURS is not defined");}
   }
-
-  final public void MedCenterAttr() throws ParseException {
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case HOURS:
-      jj_consume_token(HOURS);
-      break;
-    case DOCTOR:
-      jj_consume_token(DOCTOR);
-      break;
-    case PATIENT:
-      jj_consume_token(PATIENT);
-      Patient();
-      break;
-    default:
-      jj_la1[1] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
-    }
+  else if(!count[1])
+  {
+        {if (true) throw new ParseException("DOCTOR is not defined");}
+  }
   }
 
   final public void Patient() throws ParseException {
     jj_consume_token(LBRAC);
+    PatientAttr();
+    jj_consume_token(RBRAC);
+  }
+
+  final public void PatientAttr() throws ParseException {
+  int[] count = new int[4];
+  count[0] = 0;
+  count[1] = 0;
+  count[2] = 0;
+  count[3] = 0;
     label_2:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -58,30 +81,29 @@ public class MedParser implements MedParserConstants {
         jj_la1[2] = jj_gen;
         break label_2;
       }
-      PatientAttr();
-    }
-    jj_consume_token(RBRAC);
-  }
-
-  final public void PatientAttr() throws ParseException {
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case ID:
-      jj_consume_token(ID);
-      break;
-    case DOB:
-      jj_consume_token(DOB);
-      break;
-    case PHONES:
-      jj_consume_token(PHONES);
-      Phones();
-      break;
-    case ADDRESS:
-      jj_consume_token(ADDRESS);
-      break;
-    default:
-      jj_la1[3] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case ID:
+        jj_consume_token(ID);
+                count[0]++;
+        break;
+      case DOB:
+        jj_consume_token(DOB);
+                count[1]++;
+        break;
+      case PHONES:
+        jj_consume_token(PHONES);
+        Phones();
+                count[2]++;
+        break;
+      case ADDRESS:
+        jj_consume_token(ADDRESS);
+                count[3]++;
+        break;
+      default:
+        jj_la1[3] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
     }
   }
 
