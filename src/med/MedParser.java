@@ -12,50 +12,43 @@ public class MedParser implements MedParserConstants {
   }
 
   final public void MedCenterAttr() throws ParseException {
-        boolean[] count = new boolean[2];
-        count[0] = false;  // At least 1 Hour variable
-        count[1] = false;
     label_1:
     while (true) {
+      jj_consume_token(HOURS);
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case HOURS:
-        jj_consume_token(HOURS);
-                        count[0] = true; // Found Hour
-
-        break;
-      case DOCTOR:
-        jj_consume_token(DOCTOR);
-                        count[1] = true;  // Found Doctor
-
-        break;
-      case PATIENT:
-        jj_consume_token(PATIENT);
-        Patient();
+        ;
         break;
       default:
         jj_la1[0] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
+        break label_1;
       }
+    }
+    label_2:
+    while (true) {
+      jj_consume_token(DOCTOR);
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case HOURS:
       case DOCTOR:
-      case PATIENT:
         ;
         break;
       default:
         jj_la1[1] = jj_gen;
-        break label_1;
+        break label_2;
       }
     }
-                if(!count[0]) // If no Hours found
-                {
-                        {if (true) throw new ParseException("HOURS is not defined");}
-                }
-                else if(!count[1])   // If no Doctors found
-                {
-                        {if (true) throw new ParseException("DOCTOR is not defined");}
-                }
+    label_3:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case PATIENT:
+        ;
+        break;
+      default:
+        jj_la1[2] = jj_gen;
+        break label_3;
+      }
+      jj_consume_token(PATIENT);
+      Patient();
+    }
   }
 
   final public void Patient() throws ParseException {
@@ -70,7 +63,7 @@ public class MedParser implements MedParserConstants {
         count[1] = 0;           // DOB
         count[2] = 0;           // Phones
         count[3] = 0;
-    label_2:
+    label_4:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case PHONES:
@@ -80,8 +73,8 @@ public class MedParser implements MedParserConstants {
         ;
         break;
       default:
-        jj_la1[2] = jj_gen;
-        break label_2;
+        jj_la1[3] = jj_gen;
+        break label_4;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case ID:
@@ -102,7 +95,7 @@ public class MedParser implements MedParserConstants {
                 count[3]++;
         break;
       default:
-        jj_la1[3] = jj_gen;
+        jj_la1[4] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -127,7 +120,7 @@ public class MedParser implements MedParserConstants {
 
   final public void Phones() throws ParseException {
     jj_consume_token(LBRAC);
-    label_3:
+    label_5:
     while (true) {
       jj_consume_token(PHONENUMBER);
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -135,8 +128,8 @@ public class MedParser implements MedParserConstants {
         ;
         break;
       default:
-        jj_la1[4] = jj_gen;
-        break label_3;
+        jj_la1[5] = jj_gen;
+        break label_5;
       }
     }
     jj_consume_token(RBRAC);
@@ -151,7 +144,7 @@ public class MedParser implements MedParserConstants {
   public Token jj_nt;
   private int jj_ntk;
   private int jj_gen;
-  final private int[] jj_la1 = new int[5];
+  final private int[] jj_la1 = new int[6];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static {
@@ -159,10 +152,10 @@ public class MedParser implements MedParserConstants {
       jj_la1_init_1();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x40200080,0x40200080,0x82000000,0x82000000,0x4000000,};
+      jj_la1_0 = new int[] {0x80,0x200000,0x40000000,0x82000000,0x82000000,0x4000000,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x0,0x0,0xa,0xa,0x0,};
+      jj_la1_1 = new int[] {0x0,0x0,0x0,0xa,0xa,0x0,};
    }
 
   /** Constructor with InputStream. */
@@ -176,7 +169,7 @@ public class MedParser implements MedParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 5; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 6; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -190,7 +183,7 @@ public class MedParser implements MedParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 5; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 6; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
@@ -200,7 +193,7 @@ public class MedParser implements MedParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 5; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 6; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -210,7 +203,7 @@ public class MedParser implements MedParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 5; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 6; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
@@ -219,7 +212,7 @@ public class MedParser implements MedParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 5; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 6; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -228,7 +221,7 @@ public class MedParser implements MedParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 5; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 6; i++) jj_la1[i] = -1;
   }
 
   private Token jj_consume_token(int kind) throws ParseException {
@@ -284,7 +277,7 @@ public class MedParser implements MedParserConstants {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 6; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {

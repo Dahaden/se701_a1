@@ -11,7 +11,7 @@ public class MainRunner {
 
 	public static void main(String[] args) {
 		boolean debug = true; 
-		for (int i = 1; i <= 23; i++ ) {
+		for (int i = 1; i <= 24; i++ ) {
 			String fil = "tests"+System.getProperty("file.separator")+"input"+i+".txt";
 			File f = new File(fil);
 			try {
