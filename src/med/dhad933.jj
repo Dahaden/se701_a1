@@ -67,8 +67,7 @@ TOKEN :  // Phone Tokens
 | < PLUS : "+" >
 }
 
-void MedCenter() :{
-}
+void MedCenter() : {}
 {
   < MEDCENTER >
   < NAME >
@@ -87,7 +86,7 @@ void Hours() : {}
 {
  	< HOURS > 	< DAYS >(< COMMA >< DAYS >)*
 	< LRBRAC >< INTEGER_PAIR >< COLON >< INTEGER_PAIR >
-	<HYPHEN >< INTEGER_PAIR >< COLON >< INTEGER_PAIR ><RRBRAC >
+	< HYPHEN >< INTEGER_PAIR >< COLON >< INTEGER_PAIR >< RRBRAC >
 }
 
 void Doctors() : {}
@@ -108,7 +107,7 @@ void PatientAttr() :{
 	count[0] = 0;       // ID
 	count[1] = 0;      	// DOB
 	count[2] = 0;		// Phones
-	count[3] = 0;		// Address}{	(    < ID >< IDSTRING >    {		count[0]++;
+	count[3] = 0;		// Address}{	(    < ID > < IDSTRING >    {		count[0]++;
     }
 	| DateOfBirth()
 	{
@@ -137,16 +136,17 @@ void PatientAttr() :{
 
 void DateOfBirth() : {}
 {
-  < DOB >
-  ( < DIGIT > | < INTEGER_PAIR >)
-  < MONTHS >
-  < FOURDIGIT >   }
+  	< DOB >
+  	( < DIGIT > | < INTEGER_PAIR >)
+  	< MONTHS >
+  	< FOURDIGIT >   }
 
 void Phones() : {}{
   	< PHONES >	< LBRAC >
 		( < PHONETYPES > < COLON > (< PLUS >)?
-		 (< INTEGER_PAIR >|< FOURDIGIT >|< FIVEDIGIT >|(< DIGIT >)+)+
-		  (< EXT >(< INTEGER_PAIR >|< FOURDIGIT >|< FIVEDIGIT >|(< DIGIT >)+)+)?)+      // + prevents 0 phones being declared
+			(< INTEGER_PAIR >|< FOURDIGIT >|< FIVEDIGIT >|(< DIGIT >)+)+    // Something better??
+		  	(< EXT >(< INTEGER_PAIR >|< FOURDIGIT >|< FIVEDIGIT >|(< DIGIT >)+)+)?
+		  	)+      // + prevents 0 phones being declared
 	< RBRAC >
 }
 
