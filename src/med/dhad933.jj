@@ -23,65 +23,82 @@ SKIP :
 | "\f"
 }
 
-TOKEN :   // General Tokens{ < MEDCENTER: "MEDCENTER" (< SPACES >) < NAME >>
-| < HOURS: "HOURS" (< SPACES >) (< DAYS >)(< COMMA >< DAYS >)*(< TIMEPERIOD >)>
+TOKEN :   // General Tokens{ < MEDCENTER: "MEDCENTER">
+| < HOURS: "HOURS" >
 | < LBRAC: "{" >
 | < RBRAC: "}" >
+| < LRBRAC: "(">
+| < RRBRAC: ")">
 | < COMMA: "," >
-| < #DAYS: ("Mon"|"Tue"|"Wed"|"Thu"|"Fri"|"Sat"|"Sun") >
+| < COLON: ":" >
+| < HYPHEN: "-" >
+
+| < DAYS: ("Mon"|"Tue"|"Wed"|"Thu"|"Fri"|"Sat"|"Sun") >
 
 | < DIGIT : (["0"-"9"]) >
 | < INTEGER_PAIR : (< DIGIT >){2} >
-| < #TIME: (< INTEGER_PAIR >)[":"](< INTEGER_PAIR >) >
-| < #TIMEPERIOD: ["("](< TIME >)["-"](< TIME >)[")"] >
 | < MONTHS: ("January"|"February"|"March"|"April"|"May"|"June"|"July"|"August"|"September"|"October"|"November"|"December") >
 
 | < #LETTER: ["A"-"Z","a"-"z"," "] >
 | < #ULETTER: ["A"-"Z"] >
 | < NAME: ["\""](< LETTER >)+["\""] >
-| < #SPACES : (" "|"\t"|"\n"|"\r"|"\f")* >
 }
 
-TOKEN :  // Doctor Tokens{< DOCTOR: ("DOCTOR")(< SPACES >)(< NAME >) (< SPACES >)(< REG_IDWINT >) >
-| < #REG_ID: "REG_ID" >
-| < #FIVEDIGIT: (< DIGIT >){5} >
-| < #REG_IDWINT: (< REG_ID >)(" ")?(< FIVEDIGIT >) >
+TOKEN :  // Doctor Tokens{< DOCTOR: "DOCTOR" >
+| < REG_ID: "REG_ID" >
+| < FIVEDIGIT: (< DIGIT >){5} >
+}
+
+TOKEN :  // Patient Tokens{< PATIENT: "PATIENT">
+| < ID : "ID" >
+| < IDSTRING : (< ULETTER >){2}(< DIGIT >){5} >
+| < DOB : "DOB">
+| < FOURDIGIT : (< DIGIT >){4} >
+| < ADDRESS : "ADDRESS" >
+| < ADDRESSSTRING : ["\""](< LETTER > | < DIGIT > | "-" | "/" | < COMMA >)+["\""] >
 }
 
 TOKEN :  // Phone Tokens
 {
   < PHONES : "PHONES" >
-| < PHONENUMBER : (< PHONETYPES >)(< SPACES >)(< NUMBER >)((< SPACES >)(< EXT >)(< SPACES >)(< DIGIT >)+)?>
-| < #PHONETYPES : ("HOME"|"WORK"|"MOBILE")(":") >
-| < #EXT : "EXT" >
-| < #NUMBER : ("+")?(< DIGIT >)+ >
-}
-
-TOKEN :  // Patient Tokens{< PATIENT: "PATIENT" (< SPACES >)< NAME >>
-| < ID : "ID" (< SPACES >)< IDSTRING >>
-| < #IDSTRING : (< ULETTER >){2}(< DIGIT >){5} >
-| < DOB : "DOB" (< SPACES >) < DOBSTRING >>
-| < #DOBSTRING : (< DIGIT >){1,2}(< SPACES >)(< MONTHS >)(< SPACES >)(< DIGIT >){4} >
-| < ADDRESS : "ADDRESS" (< SPACES >)["\""](< ADDRESSSTRING >)["\""] >
-| < #ADDRESSSTRING : (< LETTER > | < DIGIT > | "-" | "/" | < COMMA >)+ >
+//| < PHONENUMBER : (< INTEGER_PAIR >|< FOURDIGIT >|< FIVEDIGIT >|(< DIGIT >)+)>
+| < PHONETYPES : ("HOME"|"WORK"|"MOBILE") >
+| < EXT : "EXT" >
+| < PLUS : "+" >
 }
 
 void MedCenter() :{
 }
 {
   < MEDCENTER >
+  < NAME >
   < LBRAC >
   MedCenterAttr()
   < RBRAC >
   < EOF >}
 
 void MedCenterAttr() : {}
-{	(< HOURS >)+
-	(< DOCTOR >)+
-	(< PATIENT > Patient())*
+{	(Hours())+
+	(Doctors())+
+	(Patient())*
 }
 
-void Patient() : {}{	< LBRAC >
+void Hours() : {}
+{
+ 	< HOURS > 	< DAYS >(< COMMA >< DAYS >)*
+	< LRBRAC >< INTEGER_PAIR >< COLON >< INTEGER_PAIR >
+	<HYPHEN >< INTEGER_PAIR >< COLON >< INTEGER_PAIR ><RRBRAC >
+}
+
+void Doctors() : {}
+{	< DOCTOR >
+	< NAME >
+	< REG_ID >
+	< FIVEDIGIT >
+}
+
+void Patient() : {}{
+    < PATIENT > < NAME >	< LBRAC >
 		PatientAttr()
 	< RBRAC >
 }
@@ -91,17 +108,17 @@ void PatientAttr() :{
 	count[0] = 0;       // ID
 	count[1] = 0;      	// DOB
 	count[2] = 0;		// Phones
-	count[3] = 0;		// Address}{	(    < ID >    {		count[0]++;
+	count[3] = 0;		// Address}{	(    < ID >< IDSTRING >    {		count[0]++;
     }
-	| < DOB >
+	| DateOfBirth()
 	{
 		count[1]++;
     }
-	| < PHONES > Phones()
+	| Phones()
 	{
 		count[2]++;
     }
-	| < ADDRESS >
+	| < ADDRESS > <ADDRESSSTRING >
 	{
 		count[3]++;
     }
@@ -118,8 +135,18 @@ void PatientAttr() :{
 		}	})  
 }
 
-void Phones() : {}{	< LBRAC >
-		( < PHONENUMBER > )+      // + prevents 0 phones being declared
+void DateOfBirth() : {}
+{
+  < DOB >
+  ( < DIGIT > | < INTEGER_PAIR >)
+  < MONTHS >
+  < FOURDIGIT >   }
+
+void Phones() : {}{
+  	< PHONES >	< LBRAC >
+		( < PHONETYPES > < COLON > (< PLUS >)?
+		 (< INTEGER_PAIR >|< FOURDIGIT >|< FIVEDIGIT >|(< DIGIT >)+)+
+		  (< EXT >(< INTEGER_PAIR >|< FOURDIGIT >|< FIVEDIGIT >|(< DIGIT >)+)+)?)+      // + prevents 0 phones being declared
 	< RBRAC >
 }
 

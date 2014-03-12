@@ -5,11 +5,14 @@ CORRECT
 19. Minimal Information with Patient 
 23. Single letter date for patient DOB
 24. Different Order (in Patient)
+25. Random spaces in places
+26. 5 digit phone numbers
+27. WHITESPACE EVERYWHEREs
 
 
 INCORRECT
 
-2. Double Declaraion (2 MedCenters)
+2. Double Declaration (2 MedCenters)
 3. Empty Name ("")
 4. No Hours
 5. No time on hours
