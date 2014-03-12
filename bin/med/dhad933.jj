@@ -39,7 +39,7 @@ TOKEN :   // General Tokens{ < MEDCENTER: "MEDCENTER" (< SPACES >) < NAME >>
 | < #LETTER: ["A"-"Z","a"-"z"," "] >
 | < #ULETTER: ["A"-"Z"] >
 | < NAME: ["\""](< LETTER >)+["\""] >
-| < #SPACES : (" ")* >
+| < #SPACES : (" "|"\t"|"\n"|"\r"|"\f")* >
 }
 
 TOKEN :  // Doctor Tokens{< DOCTOR: ("DOCTOR")(< SPACES >)(< NAME >) (< SPACES >)(< REG_IDWINT >) >
