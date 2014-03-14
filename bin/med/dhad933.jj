@@ -151,6 +151,6 @@ void Phones() : {}{
 }
 
 void Number() : {}
-{(< INTEGER_PAIR >|< FOURDIGIT >|< FIVEDIGIT >|< DIGIT >)+
+{(< INTEGER_PAIR >|< FOURDIGIT >|< FIVEDIGIT >|< DIGIT >)+ // Phone Numbers CAN be formated to have spaces in them!!
 }
 
