@@ -128,11 +128,22 @@ public class MedParser implements MedParserConstants {
         break;
       case ADDRESS:
         jj_consume_token(ADDRESS);
-        jj_consume_token(ADDRESSSTRING);
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case ADDRESSSTRING:
+          jj_consume_token(ADDRESSSTRING);
+          break;
+        case NAME:
+          jj_consume_token(NAME);
+          break;
+        default:
+          jj_la1[5] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
+        }
                 count[3]++;
         break;
       default:
-        jj_la1[5] = jj_gen;
+        jj_la1[6] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -165,7 +176,7 @@ public class MedParser implements MedParserConstants {
       jj_consume_token(INTEGER_PAIR);
       break;
     default:
-      jj_la1[6] = jj_gen;
+      jj_la1[7] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -185,101 +196,17 @@ public class MedParser implements MedParserConstants {
         jj_consume_token(PLUS);
         break;
       default:
-        jj_la1[7] = jj_gen;
+        jj_la1[8] = jj_gen;
         ;
       }
-      label_7:
-      while (true) {
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case INTEGER_PAIR:
-          jj_consume_token(INTEGER_PAIR);
-          break;
-        case FOURDIGIT:
-          jj_consume_token(FOURDIGIT);
-          break;
-        case FIVEDIGIT:
-          jj_consume_token(FIVEDIGIT);
-          break;
-        case DIGIT:
-          label_8:
-          while (true) {
-            jj_consume_token(DIGIT);
-            switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-            case DIGIT:
-              ;
-              break;
-            default:
-              jj_la1[8] = jj_gen;
-              break label_8;
-            }
-          }
-          break;
-        default:
-          jj_la1[9] = jj_gen;
-          jj_consume_token(-1);
-          throw new ParseException();
-        }
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case DIGIT:
-        case INTEGER_PAIR:
-        case FIVEDIGIT:
-        case FOURDIGIT:
-          ;
-          break;
-        default:
-          jj_la1[10] = jj_gen;
-          break label_7;
-        }
-      }
+      Number();
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case EXT:
         jj_consume_token(EXT);
-        label_9:
-        while (true) {
-          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-          case INTEGER_PAIR:
-            jj_consume_token(INTEGER_PAIR);
-            break;
-          case FOURDIGIT:
-            jj_consume_token(FOURDIGIT);
-            break;
-          case FIVEDIGIT:
-            jj_consume_token(FIVEDIGIT);
-            break;
-          case DIGIT:
-            label_10:
-            while (true) {
-              jj_consume_token(DIGIT);
-              switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-              case DIGIT:
-                ;
-                break;
-              default:
-                jj_la1[11] = jj_gen;
-                break label_10;
-              }
-            }
-            break;
-          default:
-            jj_la1[12] = jj_gen;
-            jj_consume_token(-1);
-            throw new ParseException();
-          }
-          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-          case DIGIT:
-          case INTEGER_PAIR:
-          case FIVEDIGIT:
-          case FOURDIGIT:
-            ;
-            break;
-          default:
-            jj_la1[13] = jj_gen;
-            break label_9;
-          }
-        }
+        Number();
         break;
       default:
-        jj_la1[14] = jj_gen;
+        jj_la1[9] = jj_gen;
         ;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -287,11 +214,46 @@ public class MedParser implements MedParserConstants {
         ;
         break;
       default:
-        jj_la1[15] = jj_gen;
+        jj_la1[10] = jj_gen;
         break label_6;
       }
     }
     jj_consume_token(RBRAC);
+  }
+
+  final public void Number() throws ParseException {
+    label_7:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case INTEGER_PAIR:
+        jj_consume_token(INTEGER_PAIR);
+        break;
+      case FOURDIGIT:
+        jj_consume_token(FOURDIGIT);
+        break;
+      case FIVEDIGIT:
+        jj_consume_token(FIVEDIGIT);
+        break;
+      case DIGIT:
+        jj_consume_token(DIGIT);
+        break;
+      default:
+        jj_la1[11] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case DIGIT:
+      case INTEGER_PAIR:
+      case FIVEDIGIT:
+      case FOURDIGIT:
+        ;
+        break;
+      default:
+        jj_la1[12] = jj_gen;
+        break label_7;
+      }
+    }
   }
 
   /** Generated Token Manager. */
@@ -303,7 +265,7 @@ public class MedParser implements MedParserConstants {
   public Token jj_nt;
   private int jj_ntk;
   private int jj_gen;
-  final private int[] jj_la1 = new int[16];
+  final private int[] jj_la1 = new int[13];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static {
@@ -311,10 +273,10 @@ public class MedParser implements MedParserConstants {
       jj_la1_init_1();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x80,0x400000,0x2000000,0x1000,0x54000000,0x54000000,0x30000,0x0,0x10000,0x21030000,0x21030000,0x10000,0x21030000,0x21030000,0x0,0x0,};
+      jj_la1_0 = new int[] {0x80,0x400000,0x2000000,0x1000,0x54000000,0x80200000,0x54000000,0x30000,0x0,0x0,0x0,0x21030000,0x21030000,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x1,0x1,0x0,0x8,0x0,0x0,0x0,0x0,0x0,0x0,0x4,0x2,};
+      jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x1,0x0,0x1,0x0,0x8,0x4,0x2,0x0,0x0,};
    }
 
   /** Constructor with InputStream. */
@@ -328,7 +290,7 @@ public class MedParser implements MedParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -342,7 +304,7 @@ public class MedParser implements MedParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
@@ -352,7 +314,7 @@ public class MedParser implements MedParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -362,7 +324,7 @@ public class MedParser implements MedParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
@@ -371,7 +333,7 @@ public class MedParser implements MedParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -380,7 +342,7 @@ public class MedParser implements MedParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
   }
 
   private Token jj_consume_token(int kind) throws ParseException {
@@ -436,7 +398,7 @@ public class MedParser implements MedParserConstants {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 16; i++) {
+    for (int i = 0; i < 13; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
