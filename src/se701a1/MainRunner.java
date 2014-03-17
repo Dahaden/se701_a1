@@ -1,9 +1,11 @@
 package se701a1;
 
 
+import java.awt.List;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 import med.*;
 
@@ -11,7 +13,9 @@ public class MainRunner {
 
 	public static void main(String[] args) {
 		boolean debug = true; 
-		for (int i = 1; i <= 29; i++ ) {
+		ArrayList<Integer> pass = new ArrayList<Integer>();
+		ArrayList<Integer> fail = new ArrayList<Integer>();
+		for (int i = 1; i <= 30; i++ ) {
 			String fil = "tests"+System.getProperty("file.separator")+"input"+i+".txt";
 			File f = new File(fil);
 			try {
@@ -20,16 +24,17 @@ public class MainRunner {
 				if(debug) {
 					try {
 						parser.MedCenter();
-						System.out.println(f.getName()+" OK");
-						System.out.println("------------------------------------");
+						pass.add(i);
 					} catch (TokenMgrError e) {
 						System.err.print(f.getName()+" failed in the Scanner: ");
 						System.err.println(e.getMessage());;
 						System.err.println("------------------------------------");
+						fail.add(i);
 					} catch (ParseException e) {
 						System.err.print(f.getName()+" failed in the Parser: ");
 						System.err.println(e.getMessage());;
 						System.err.println("------------------------------------");
+						fail.add(i);
 					}
 				} else {
 
@@ -39,5 +44,7 @@ public class MainRunner {
 				System.err.println("------------------------------------");
 			}
 		}
+		System.out.println("Passed: " + pass.toString());
+		System.out.println("Failed: " + fail.toString());
 	}
 }
